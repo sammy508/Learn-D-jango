@@ -12,6 +12,7 @@ from . import views
 
 
 urlpatterns = [
+    path('LoginPage/', views.LoginPage, name='LoginPage'),
     path('', views.Home, name='Home'),
     path('Home/', views.Home, name='Home'), 
     path('room/<str:pk>/', views.Rooms, name='room'),

@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Room, Topic
 from .forms import RoomForm
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from 
+from django.contrib import messages
+
 
 
 # Create your views here.
@@ -12,6 +17,34 @@ from .forms import RoomForm
 #   {'id':2, 'name':'Django'},
 #   {'id':3, 'name':'Javascript'},
 # ]
+
+
+def LoginPage(request):
+  if request.method == 'POST':
+    username = request.POST.get('username','').strip() # safer way to use .get() instead of directly accessig the value
+    password = request.POST.get('password','').strip()
+
+    try:
+      user = User.objects.get(username=username)
+      
+    except:
+      message = messages.error(request, "User doesn't exist")
+
+      user = authenticate(request, username=username, password=password)
+      if user is not None:
+        login(request,user)
+        return redirect ( 'Home')
+      
+      else:
+        messages.error(request, "Invalid username or password")
+        return render(request, 'base/login-template.html')
+
+  return render(request, 'base/login-template.html')
+
+# have to update field validations and change email to username format on login form 
+
+
+# To restrict page and make login required we have to import login required library and implement login required decorators 
 
 def Home(request):
 
@@ -33,6 +66,7 @@ def Rooms(request,pk):
 
 
 # CRUD OPeration 
+@login_requierd()
 def Create_Room(request):
   form = RoomForm()
 
