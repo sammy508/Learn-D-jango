@@ -1,0 +1,86 @@
+Django Decorators – Daily Learning Notes
+1. Overview
+
+Decorators in Django are Python functions that wrap views to add additional functionality such as authentication checks, HTTP method restrictions, caching, or security measures.
+They help simplify repetitive tasks and control flow before a view executes.
+
+2. Categories of Django Decorators
+A. HTTP Method Restrictions
+
+Restrict access based on HTTP methods:
+
+Decorator	Description
+@require_GET	Only allows GET requests
+@require_POST	Only allows POST requests
+@require_http_methods([...])	Allows specified HTTP methods
+@require_safe	Allows only safe methods: GET & HEAD
+
+Example:
+
+from django.views.decorators.http import require_GET
+
+@require_GET
+def my_view(request):
+    return HttpResponse("This view only accepts GET requests.")
+
+B. Authentication & Permissions
+
+Ensure the user has access before executing the view:
+
+Decorator	Description
+@login_required	Only logged-in users can access the view
+@permission_required('app.permission')	Check a specific permission
+@user_passes_test(lambda u: condition)	Custom condition-based access
+
+Example:
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+C. Utilities
+
+Enhance view behavior or security:
+
+Decorator	Description
+@sensitive_post_parameters('password')	Hides sensitive POST fields in error reports
+@csrf_exempt	Disables CSRF protection for a view
+@csrf_protect	Explicitly enable CSRF protection
+@vary_on_headers('User-Agent')	Cache varies depending on the request header
+@vary_on_cookie	Cache varies depending on cookies
+
+Example:
+
+from django.views.decorators.debug import sensitive_post_parameters
+
+@sensitive_post_parameters('password')
+def login_view(request):
+    ...
+
+D. Caching
+
+Control caching of views:
+
+Decorator	Description
+@cache_page(seconds)	Cache the entire view for a specific duration
+@never_cache	Prevent caching of the view
+
+Example:
+
+from django.views.decorators.cache import cache_page
+
+@cache_page(60 * 15)  # Cache for 15 minutes
+def home(request):
+    ...
+
+3. Key Points / Logic
+
+Decorators wrap views to perform checks or actions before view execution.
+
+HTTP & permission decorators → control access.
+
+Utility decorators → enhance behavior/security.
+
+Caching decorators → improve performance.
