@@ -3,8 +3,8 @@ from .models import Room, Topic
 from .forms import RoomForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -61,12 +61,13 @@ def Rooms(request,pk):
   for i in room: 
     if i.id == int(pk): 
       room = i
+      
   context = {'room':room}
   return  render (request, 'base/room.html', context)
 
 
 # CRUD OPeration 
-@login_requierd()
+@login_required(login_url='/LoginPage/')  # Login required restrict user access those pages without registration 
 def Create_Room(request):
   form = RoomForm()
 
@@ -85,7 +86,7 @@ def Create_Room(request):
 # UPdate Room
 
 
-
+@login_required(login_url='/LoginPage/')
 def update_Room(request, pk):
   room = Room.objects.get(id=pk)
   form = RoomForm(instance=room)
@@ -104,7 +105,7 @@ def update_Room(request, pk):
 
 # Delete Room 
 
-
+@login_required(login_url='/LoginPage/')
 def delete_Room(request,pk):
   room = Room.objects.get(id=pk)
   form = RoomForm(instance=room)
@@ -115,4 +116,6 @@ def delete_Room(request,pk):
   
   context = {"form":form}
   return render (request, 'base/delete_room.html',context)
+
+# have to add later if user is already logged in then prevent user from login again 
 
