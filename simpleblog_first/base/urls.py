@@ -12,7 +12,11 @@ from . import views
 
 
 urlpatterns = [
+    path('registration/', views.userRegistration_Form, name = 'registration'),
     path('LoginPage/', views.LoginPage, name='LoginPage'),
+    path('logout', views.Logoutbutton, name = 'logout'),
+   
+
     path('', views.Home, name='Home'),
     path('Home/', views.Home, name='Home'), 
     path('room/<str:pk>/', views.Rooms, name='room'),

@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+
 
 
 
@@ -21,28 +23,65 @@ from django.contrib.auth.decorators import login_required
 
 def LoginPage(request):
   if request.method == 'POST':
-    username = request.POST.get('username','').strip() # safer way to use .get() instead of directly accessig the value
-    password = request.POST.get('password','').strip()
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
 
-    try:
-      user = User.objects.get(username=username)
-      
-    except:
-      message = messages.error(request, "User doesn't exist")
+        user = authenticate(request, username=username, password=password)
 
-      user = authenticate(request, username=username, password=password)
-      if user is not None:
-        login(request,user)
-        return redirect ( 'Home')
-      
-      else:
-        messages.error(request, "Invalid username or password")
+        if user is not None:
+            login(request, user)
+            return redirect('Home')
+        else:
+            messages.error(request, "Invalid username or password")
+            return render(request, 'base/login-template.html', {'username': username})
         return render(request, 'base/login-template.html')
 
   return render(request, 'base/login-template.html')
 
 # have to update field validations and change email to username format on login form 
 
+
+# Error : 
+# def userRegestration_Form(request):
+#   form = UserCreationForm()
+#   if request.method == 'POST':
+#     form = UserCreationForm(request.POST)
+#     if form.is_valid():
+#       try:
+#         form.save()
+#         messages.success(request, "Registration successful. Please log in.")
+#         return redirect('LoginPage')
+#       except Exception as e:
+#         messages.error(request,"Invalid data. Please try again.")
+    
+      
+
+#   return render (request,'base/regestration-template.html', {'form':form})
+
+
+def userRegistration_Form(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                messages.success(request, "Registration successful. Please log in.")
+                return redirect('LoginPage')
+            except Exception as e:
+                messages.error(request, f"Error: {str(e)}")
+        else:
+            messages.error(request, "Invalid data. Please try again.")
+    else:
+        form = UserCreationForm()
+
+    return render(request, 'base/regestration-template.html', {"form": form})
+
+
+
+# To make a Logout buttton 
+def Logoutbutton(request):
+      logout(request)
+      return redirect('LoginPage')
 
 # To restrict page and make login required we have to import login required library and implement login required decorators 
 

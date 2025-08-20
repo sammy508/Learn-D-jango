@@ -6,8 +6,8 @@
         <h2 style="text-align:center; margin-bottom:30px; color:#333;">Login</h2>
         <form action="#" method="POST">
             {% csrf_token %}
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required style="width:100%; padding:12px; margin-bottom:20px; border:1px solid #ccc; border-radius:5px;">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required style="width:100%; padding:12px; margin-bottom:20px; border:1px solid #ccc; border-radius:5px;">
 
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required style="width:100%; padding:12px; margin-bottom:20px; border:1px solid #ccc; border-radius:5px;">
@@ -15,7 +15,7 @@
             <button type="submit" style="width:100%; padding:12px; background:#007BFF; color:#fff; border:none; border-radius:5px; cursor:pointer; font-size:16px;">Login</button>
         </form>
         <div class="footer" style="text-align:center; margin-top:15px; font-size:14px; color:#777;">
-            <p>Don't have an account? <a href="#">Sign up</a></p>
+            <p>Don't have an account? <a href="{% url 'registration' %}">Sign up</a></p>
             <p><a href="#">Forgot Password?</a></p>
         </div>
     </div>
