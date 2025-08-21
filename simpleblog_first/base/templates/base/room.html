@@ -5,12 +5,39 @@
     <h1>Welcome to Simple Blog</h1>
     <p>This is the Room page of your blog.</p>
 
-    <p>{{% room.description %}}</p>
+   <p>{{ room.description }}</p>
 
     <div class ="comment-wrappper">
         <h3>Conversation</h3>
         <hr>
 
+            {% if messages %}
+        <ul class="messages">
+            {% for message in messages    %}
+            <div>
+                <small>
+                    @{{message.user}} {{message.created | timesince}} ago
+                </small>
+                <p>
+                    {{message.body}}
+                </p>
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
     </div>
+   {% if request.user.is_authenticated %}
+
+    <div class = "coment-form">
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" name="body" placeholder="write your message">
+            <button type="send">Send</button>
+
+        </form>
+
+    </div>
+    {% endif %}
 
 {%endblock content%}

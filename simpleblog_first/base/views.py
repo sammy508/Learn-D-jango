@@ -96,12 +96,11 @@ def Home(request):
 
 def Rooms(request,pk):
 
-  room  = Room.objects.all()
-  for i in room: 
-    if i.id == int(pk): 
-      room = i
+  room = Room.objects.get(id=pk) 
+  messages = room.message_set.all().order_by('-created')  # query child object of a specific room , message is a model nam e
+
       
-  context = {'room':room}
+  context = {'room':room, 'messages':messages}
   return  render (request, 'base/room.html', context)
 
 
