@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-
+from .models import Userprofile
 
 
 
@@ -156,4 +156,7 @@ def delete_Room(request,pk):
   return render (request, 'base/delete_room.html',context)
 
 # have to add later if user is already logged in then prevent user from login again 
+
+
+# using CBV pattern to upload and create user profile 
 

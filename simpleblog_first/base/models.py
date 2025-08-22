@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+import os
 
 # from django.core.validators import RegexValidator
 
@@ -46,6 +47,53 @@ class Message(models.Model):
 
     def __str__(self):
         return self.body[0:50]
+
+
+class Userprofile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # username = models.CharField(User, max_length=20, blank=False, null=False, verbose_name ="Username")    # if i pass User, then i dont have to pass verbose_name, it automatically takes verbosename
+    username = models.CharField(max_length=20, blank=False, null=False, verbose_name="Username")
+
+    email = models.EmailField(unique=True,max_length=20,null=False,blank=False, verbose_name='Email address' )
+    phone = models.CharField(max_length=10, null=False, blank= False,verbose_name='Phone num')
+    profile_image = models.ImageField(blank=False, null=False, upload_to='profile_images/',default='default_profile.png')
+    bio = models.TextField(blank=True, null=True, max_length=50)
+
+    created_at = models.DateTimeField(auto_now_add= True )
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return super().__str__()
+    
+    def delete(self, *args, **kwargs):
+        if self.profile_image and self.profile_image.name != 'default_profile.png':
+            if os.path.isfile(self.profile_image.path):
+                os.remove(self.profile_image.path)
+                super().delete(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
