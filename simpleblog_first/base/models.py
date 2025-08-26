@@ -4,6 +4,8 @@ from django.db.models.deletion import CASCADE
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 import os
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # from django.core.validators import RegexValidator
 
@@ -25,7 +27,7 @@ class Room(models.Model):
     name = models.CharField(max_length=50, null=False)
     description = models.TextField(null= True, blank= True, max_length= 1000)
 
-    # participants
+    participants = models.ManyToManyField(User, related_name= 'participants', blank=True)  # herehow we write many to many relations on django orm
     updated = models.DateTimeField(auto_now= True)
     created = models. DateTimeField(auto_now_add=True)
 
@@ -75,7 +77,14 @@ class Userprofile(models.Model):
 
 
 
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Userprofile.objects.create(user=instance)
 
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
+#     instance.userprofile.save()
 
 
 

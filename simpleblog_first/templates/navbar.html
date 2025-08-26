@@ -12,6 +12,7 @@
         </form> -->
         {% if user.is_authenticated %}
             <a href="{% url 'logout' %}" style="color: #fff; text-decoration: none;" class="btn btn-primary">Logout</a>
+             <!-- <li style="margin-left:auto;"><a href="/my-profile/" style="color: #fff; text-decoration: none;">Profile</a></li> -->
 
         {% else %}
              <li style="margin-left:auto;"><a href="/LoginPage/" style="color: #fff; text-decoration: none;">Login</a></li>

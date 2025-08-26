@@ -1,0 +1,110 @@
+{% extends 'main.html' %}
+
+{% block title %}My Profile - User Profiles{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 text-center mb-4">
+        <img src="{{ profile.profile_image.url }}" class="profile-img rounded-circle mb-3" alt="Profile Image">
+        <h2>{{ profile.user.get_full_name }}</h2>
+        <p class="text-muted">@{{ profile.user.username }}</p>
+        
+        <div class="action-buttons">
+            <a href="{% url 'profile-update' profile.pk %}" class="btn btn-primary btn-action">
+                <i class="fas fa-edit me-1"></i> Edit Profile
+            </a>
+            <a href="{% url 'profile-delete' profile.pk %}" class="btn btn-danger btn-action">
+                <i class="fas fa-trash me-1"></i> Delete Profile
+            </a>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>Profile Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong><i class="fas fa-user me-1"></i> Full Name</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ profile.user.get_full_name }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong><i class="fas fa-envelope me-1"></i> Email</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ profile.user.email }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong><i class="fas fa-phone me-1"></i> Phone</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ profile.phone|default:"Not provided" }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong><i class="fas fa-id-badge me-1"></i> Username</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ profile.user.username }}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong><i class="fas fa-quote-left me-1"></i> Bio</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ profile.bio|default:"No bio provided" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0"><i class="fas fa-history me-2"></i>Account Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong><i class="fas fa-calendar-plus me-1"></i> Member since</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ profile.user.date_joined|date:"F j, Y" }}
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <strong><i class="fas fa-sync-alt me-1"></i> Last updated</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ profile.updated_at|date:"F j, Y" }}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-3">
+                        <strong><i class="fas fa-sign-in-alt me-1"></i> Last login</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        {{ profile.user.last_login|date:"F j, Y" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

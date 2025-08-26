@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Room, Topic
+from .models import Room, Topic, Message
 from .forms import RoomForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -7,8 +7,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from .models import Userprofile
-
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, UpdateView, CreateView, DeleteView
+from .forms import UserProfileForm
+from .forms import UserProfileForm, CustomUserForm, CustomUserProfileForm, UserUpdateForm, UserRegistrationForm
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -96,11 +100,22 @@ def Home(request):
 
 def Rooms(request,pk):
 
-  room = Room.objects.get(id=pk) 
-  messages = room.message_set.all().order_by('-created')  # query child object of a specific room , message is a model nam e
+  room = Room.objects.get(id=pk)
+  
+  room_messages = room.message_set.all().order_by('-created')  # query child object of a specific room , message is a model nam e
+  participants = room.participants.all()
+  if request.method == 'POST':
+            message = Message.objects.create(
+               user = request.user,
+               room = room,
+               body = request.POST.get('body'),
+            )
+            room.participants.add(request.user)
+            return redirect('room', pk=room.id)
+        
 
       
-  context = {'room':room, 'messages':messages}
+  context = {'room':room, 'room_messages':room_messages, 'participants':participants}
   return  render (request, 'base/room.html', context)
 
 
@@ -157,6 +172,67 @@ def delete_Room(request,pk):
 
 # have to add later if user is already logged in then prevent user from login again 
 
+# Delete Message 
+@login_required(login_url='/LoginPage/')
+def delete_message(request,pk):
+  messages = Message.objects.get(id=pk)
+  # form = RoomForm(instance=messages)
+
+  if request.user != messages.user:
+     return HttpResponse("You aren't allowed to  delete")
+
+  if request.method == "POST":
+    messages.delete()
+    return redirect('Home')
+  
+  context = {"message":messages}
+  return render (request, 'base/delete_message.html',context)
+
+
+
 
 # using CBV pattern to upload and create user profile 
 
+class MyProfileView(LoginRequiredMixin, DetailView ):
+   model = Userprofile
+   template_name='my_profile.html'
+
+   def get_object(self):
+      obj, created = Userprofile.objects.get_or_create(user=self.request.user)
+      return obj
+   
+
+# Create a new profile 
+
+class UserProfileDetailView(DetailView):
+   model = Userprofile
+   template_name = 'base/profile_detail.html'
+
+   def get_object(self):
+      return Userprofile.objects.get(user = self.request.user)
+
+
+
+
+
+# Update User profile 
+
+class MyProfileUpdateView(LoginRequiredMixin,UpdateView):
+   model=Userprofile
+   form_class= UserProfileForm
+   template_name= 'profiles/profile_form.html.html'
+   success_url = reverse_lazy('profile-list')
+
+
+# class ModelNameDetail(DetailView):
+#     model = Userprofile
+#     template_name='profiles_lazy.delay.html'
+#     sucess_fuerm = reverse_lazy('group-t')
+
+# UserProfileDeleteView 
+
+class UserProfileDeleteView(LoginRequiredMixin,DeleteView):
+   model=Userprofile
+   template_name= 'profiles/profile_confirm_delete.html'
+   success_url = reverse_lazy('profile-list')
+   
