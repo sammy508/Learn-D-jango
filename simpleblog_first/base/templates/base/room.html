@@ -1,14 +1,11 @@
 {%extends 'main.html'%} {% block content%}
 
-
 <style>
-  .room-container{
+  .room-container {
     display: grid;
     grid-template-columns: 3fr 1fr;
   }
 </style>
-
-
 
 <div class="room-container">
   <div>
@@ -24,10 +21,12 @@
 
       {% if room_messages %}
       <ul class="messages">
-       
         {% for message in room_messages %}
         <div>
-           <a href="{% url 'delete_message' message.id %}">Delete</a>
+          {% if request.user == message.user %}
+          <a href="{% url 'delete_message' message.id %}">Delete</a>
+          {% endif %}
+
           <small> @{{message.user}} {{message.created | timesince}} ago </small>
           <p>{{message.body}}</p>
         </div>
@@ -47,21 +46,14 @@
   </div>
 
   <div>
-    <p><b>
-       Participants Sections
-    </b>
-     </p>
-     <hr>
-     {% for user in participants %}
-     <div>
-      <p>
-         @{{user.username}}
-      </p>
-     
-     </div>
+    <p><b> Participants Sections </b></p>
+    <hr />
+    {% for user in participants %}
+    <div>
+      <p>@{{user.username}}</p>
+    </div>
 
-
-     {% endfor %}
+    {% endfor %}
   </div>
 </div>
 {% endif %} {%endblock content%}

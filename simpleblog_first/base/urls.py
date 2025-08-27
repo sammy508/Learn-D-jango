@@ -25,7 +25,8 @@ urlpatterns = [
     path('Create_Room', views.Create_Room, name='Create_Room'),
     path('update_Room/<str:pk>/',views.update_Room, name='update_Room'),
     path('delete_Room/<str:pk>/', views.delete_Room, name='delete_Room'),
-    path('delete_message/<str:pk>/', views.delete_message, name='delete_message'),
+    path('delete_room/<str:pk>/', views.delete_message, name='delete_message'),
+    #  path('delete_room/<str:pk>/', views.delete_message, name='delete_message'),
 
     # update url according to CBV
 

@@ -1,82 +1,126 @@
 
-{% extends 'main.html' %}
-{% block content %}
+{% extends 'main.html' %} {% block content %}
 
 <h1>Welcome to page</h1>
 <p>This is the home page of your blog.</p>
 
 <style>
-  .home-container{
+  .home-container {
     display: grid;
-    grid-template-columns: 1fr 3fr;
-
+    grid-template-columns: 1fr 3fr 1fr;
   }
 </style>
 
-
-
-    
-<div class = "home-container">
-
-  <div >
+<div class="home-container">
+  <div>
     <h3>Browse Topics</h3>
-      <form action="{% url 'Home' %}" method="get">
-            <input type="text" name="q" placeholder="search Room.....">
-        </form>
-        <br>
-        <br>
-        <div>
-           <a href="{% url 'Home' %}">ALL</a>
-          <a href="{% url 'Home' %}">{{topic.name}}</a>
-        </div>
+    <form action="{% url 'Home' %}" method="get">
+      <input type="text" name="q" placeholder="search Room....." />
+    </form>
+    <br />
+    <br />
+    <div>
+      <a href="{% url 'Home' %}">ALL</a>
+      <a href="{% url 'Home' %}">{{topic.name}}</a>
+    </div>
 
-        <div>
-          {% for topic in topics %}
-          <div>
-            <a href="{% url 'Home' %}?q={{topic.name}}">{{topic.name}}</a>
-          </div>
-          {% endfor %}
-        </div>
+    <div>
+      {% for topic in topics %}
+      <div
+        style="
+          width: 100px;
+          padding-right: 10px;
+          padding-left: 18px;
+          margin: 10px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: #f9f9f9;
+          word-wrap: break-word;
+        "
+      >
+        <a href="{% url 'Home' %}?q={{topic.name}}">{{topic.name}}</a>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 
-  
-
-  
   <div>
     <a href="{% url 'Create_Room' %}"> Create Room</a>
-    <hr>
-      {% for room in rooms %}
-      <div >
+    <hr />
+    {% for room in rooms %}
+    <div>
+      <span> @{{room.host.username}} </span>
+      <a href="{% url 'update_Room' room.id %}">Edit</a>
 
-      
-            <span>
-              @{{room.host.username}}
-
-          </span>
-          <a href="{% url 'update_Room' room.id %}">Edit</a>
-          
-
-
-          <h4>
-              <!-- {{ room.id }} ---  <a href="/room/{{room.id}}"> {{ room.name }} </a> -->
-              {{ room.id }} --- <a href="{% url 'room' room.id %}">{{ room.name }}</a> 
-              </h4>
-              <p>
-                
-                <i><b>{{room.description}}</b> </i>
-              </p>
-        <small>
+      <h4>
+        <!-- {{ room.id }} ---  <a href="/room/{{room.id}}"> {{ room.name }} </a> -->
+        {{ room.id }} --- <a href="{% url 'room' room.id %}">{{ room.name }}</a>
+      </h4>
+      <p>
+        <i><b>{{room.description}}</b> </i>
+      </p>
+      <small>
         <p>Topic: {{ room.topic.name }}</p>
         <a href="{%url 'delete_Room' room.id %}">Delete</a>
 
-        <hr>
+        <hr />
+      </small>
+      <br />
+      <br />
+    </div>
+    {% endfor %}
+  </div>
 
-        </small>
-        <br>
-        <br>
+  
+  <div>
+    <div
+      style="
+        padding-left: 30px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        word-wrap: break-word;
+      "
+    >
+      <h3>Recent Activities</h3>
+    </div>
+
+    <hr />
+    <div
+      style="
+        width: 300px;
+        max-height: 500px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      "
+    >
+      {% for message in room_message %}
+      <div
+        style="
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          padding: 10px;
+          background-color: #f9f9f9;
+          word-wrap: break-word;
+        "
+      >
+        <small style="color: #555"
+          >@ {{ message.user }} • {{ message.created|timesince }} ago</small
+        >
+        <small style="color: #777; display: block"
+          >replied to {{ message.room }}</small
+        >
+        <div style="margin-top: 5px; font-size: 14px; line-height: 1.4">
+          {{ message.body }}
+          
+        </div>
       </div>
       {% endfor %}
+    </div>
   </div>
+
+  {% endblock content %}
+  <a></a>
 </div>
-{% endblock content %}
-<a></a>
