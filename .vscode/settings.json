@@ -1,4 +1,23 @@
 {
+    "python.defaultInterpreterPath": "D:/D jango/venv/Scripts/python.exe",
+
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.completeFunctionParens": true,
+    "python.analysis.typeCheckingMode": "basic",
+
+    "python.analysis.extraPaths": [
+        "./apiproject",
+        "./apiproject/models",
+        "./apiproject/serializers",
+        "./apiproject/views"
+    ],
+
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+
     "accessibility.signals.lineHasError": {
         "sound": "off"
     },

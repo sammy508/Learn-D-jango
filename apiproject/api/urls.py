@@ -1,9 +1,13 @@
 
 from django.urls import path
 
-# import your views here
-from .views.post_views import * # importing all the view function of that page
+from api import views
+
+# importing all the view function of that page
+from .views.student_views import Studentview, StudentDetailView
+
 
 urlpatterns = [
-    path('posts/', post_list, name='post-list'),
+    path('student/',Studentview, name='student'),
+    path('student/<str:pk>',StudentDetailView, name='student_detail'),
 ]
