@@ -1,35 +1,92 @@
-# Learn-D-jango
 
-# Simple Blog (Django)
 
-A beginner-friendly Django project created while learning about **URLs**, **Views**, and **Templates**.  
-This is my first simple blog project built as part of my Django learning journey.
+# Student Management System (S_M_S)
 
----
+A Django-based project for managing students, teachers, and courses, with API endpoints built using Django REST Framework (DRF).
 
-## 📌 Features Learned
-- **Django URL routing** – Mapping URLs to specific views in `urls.py`.
-- **Views** – Writing Python functions in `views.py` that return HTML content.
-- **Templates** – Creating `.html` files inside the `templates` folder to render dynamic content.
+## Features
 
----
+- User authentication and authorization (admin, teacher, student)
+- JWT-based login and logout
+- CRUD operations for students, teachers, and courses
+- ID generation and validation utilities
+- Admin-only views for restricted actions
 
-## 🛠️ Setup Instructions
+## Project Structure
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/sammy508/Learn-D-jango.git
-cd simpleblog_first
+Project Root: S_M_S
+│
+├─ manage.py           <-- Django command-line utility
+├─ .env                <-- Environment variables
+├─ db.sqlite3          <-- Database
+│
+├─ Notes/              <-- Study notes (e.g., URL routing)
+│
+├─ student_management_system/   <-- Main App
+│   ├─ models/                <-- Database models
+│   │   ├─ course_model.py
+│   │   ├─ student_models.py
+│   │   ├─ Teacher_table.py
+│   │   └─ user_models.py
+│   │
+│   ├─ serializers/           <-- Converts models to JSON and vice versa
+│   │   ├─ course_serializers.py
+│   │   ├─ student_serializer.py
+│   │   ├─ teacher_serializer.py
+│   │   ├─ User_serializer.py
+│   │   └─ login/logout_serializers.py
+│   │
+│   ├─ views/                 <-- Business logic / API endpoints
+│   │   ├─ admin_only_view.py
+│   │   ├─ userlogin_view.py
+│   │   ├─ userlogout_views.py
+│   │   └─ user_view.py
+│   │
+│   ├─ utils/                 <-- Helper functions
+│   │   ├─ hasher.py
+│   │   ├─ id_generators.py
+│   │   ├─ student_id_generator.py
+│   │   └─ validations.py
+│   │
+│   ├─ migrations/           <-- Database schema migrations
+│   ├─ admin.py
+│   ├─ urls.py               <-- App-level URLs
+│   ├─ apps.py
+│   ├─ models.py             <-- (Optional main model file)
+│   └─ tests.py
+│
+└─ S_M_S/                   <-- Project configuration
+    ├─ settings.py          <-- Project settings (DB, apps, middleware)
+    ├─ urls.py              <-- Root URL router
+    ├─ wsgi.py              <-- Deployment (WSGI)
+    └─ asgi.py              <-- Deployment (ASGI)
 
-### 2. create virtual ENV 
+
+# TO clone
+1. Clone the repository:  https://github.com/sammy508/Learn-D-jango.git
+2. Create virtual env: 
     python -m venv venv
+    venv\Scripts\activate   # Windows
+    source venv/bin/activate
 
-*** Install dependency 
-    pip install django
+3. Install dependencies:
+    pip install -r requirements.txt
 
-*** Run Migrations
+4. Apply Migrations
     python manage.py migrate
 
-*** Start development Server 
+5. Run the development server:
     python manage.py runserver
 
+
+# Usage
+
+    Access APIs through the endpoints defined in student_management_system/urls.py.
+
+    Admin panel available at /admin (create superuser with python manage.py createsuperuser).
+
+# Notes
+
+    Environment variables (like SECRET_KEY) should be defined in .env.
+
+    Utilities in utils/ handle ID generation, password hashing, and validation.
