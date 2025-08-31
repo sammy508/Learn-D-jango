@@ -25,7 +25,7 @@ class UserModel(models.Model):
                                
                                default='example@gmail.com')
     
-    usr_password = models.CharField(max_length=130, validators=[ValidateFields.password_validator()]                              
+    password = models.CharField(max_length=130, validators=[ValidateFields.password_validator()]                              
                                      )
     
   
@@ -51,16 +51,15 @@ class UserModel(models.Model):
     # Model level password hashing 
 
     def save(self, *args, **kwargs):
-          
-          if not self.pk or not self.usr_password.startswith('pbkdf2_'):
-            self.usr_password = hash_password(self.usr_password)
-            super().save(*args, **kwargs)
+        if not self.pk or not self.password.startswith('pbkdf2_'):
+            self.password = hash_password(self.password)
+        super().save(*args, **kwargs)
 
 
      # check_password is  helper function  for login validation 
 
     def check_password(self, raw_password):
-         return verify_password(raw_password, self.usr_password)
+         return verify_password(raw_password, self.password)
    
 
     class Meta:

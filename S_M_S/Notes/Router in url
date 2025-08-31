@@ -1,10 +1,10 @@
 
-<p>
+# Default Router
 The DefaultRouter is a powerful feature of Django REST Framework (DRF) that automatically generates URL patterns for your ViewSets. 
 It's like having a smart URL configurator that creates all the standard CRUD endpoints for you.
 
 
-What DefaultRouter Does:
+# What DefaultRouter Does:
 1. Automatically creates URL patterns for all CRUD operations:
 LIST (GET /api/students/) - Get all items
 
@@ -24,3 +24,22 @@ Root API view (GET /api/) - Shows all available endpoints
 Format suffixes - Allows .json, .api extensions
 
 </p>
+
+
+# What attrs means
+
+attrs is just a Python dictionary that contains all the fields in  serializer received after validation.
+
+since LogoutSerializer only has one field (refresh), attrs will look like:
+
+Therefore : 
+attrs = dictionary of validated input data.
+
+attrs['refresh'] = the refresh token string the user sent.
+
+# Cors
+CORS = Cross-Origin Resource Sharing (controls which domains can make requests to your backend).
+
+ALLOW_CREDENTIALS=True tells Django:
+
+“It’s okay for the browser to include cookies, HTTP authentication, or client-side SSL certificates when making requests from another origin.
