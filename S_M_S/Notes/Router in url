@@ -1,0 +1,26 @@
+
+<p>
+The DefaultRouter is a powerful feature of Django REST Framework (DRF) that automatically generates URL patterns for your ViewSets. 
+It's like having a smart URL configurator that creates all the standard CRUD endpoints for you.
+
+
+What DefaultRouter Does:
+1. Automatically creates URL patterns for all CRUD operations:
+LIST (GET /api/students/) - Get all items
+
+CREATE (POST /api/students/) - Create new item
+
+RETRIEVE (GET /api/students/1/) - Get single item
+
+UPDATE (PUT /api/students/1/) - Full update
+
+PARTIAL_UPDATE (PATCH /api/students/1/) - Partial update
+
+DESTROY (DELETE /api/students/1/) - Delete item
+
+2. Provides additional endpoints:
+Root API view (GET /api/) - Shows all available endpoints
+
+Format suffixes - Allows .json, .api extensions
+
+</p>
