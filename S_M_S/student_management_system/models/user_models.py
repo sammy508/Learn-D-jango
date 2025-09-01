@@ -1,66 +1,56 @@
-
+# models.py
 from django.db import models
-from django.forms import CharField
-from ..utils.validations import ValidateFields
-from django.contrib.auth.hashers import make_password, check_password  # to hash password and check hashed and unhashed password 
-from ..utils.hasher import hash_password, check_password, verify_password
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.core.validators import EmailValidator
+import uuid
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('Users must have an email address')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
 
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('role', 'admin')
+        return self.create_user(email, password, **extra_fields)
 
-
-class UserModel(models.Model):
+class UserModel(AbstractBaseUser, PermissionsMixin):
+    # ONLY the fields YOU want - no bullshit
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True, validators=[EmailValidator()])
     
-    id = models.AutoField(primary_key=True) # internal
-
-    username = models.CharField(
-        blank=False,
-        null=False,
-          validators= [ ValidateFields.Username_validator()]
-    )
-   
-    email = models.EmailField(unique=True,
-                              null=False,
-                               blank=False,
-                               validators=[ValidateFields.Email_validator()],
-                               
-                               default='example@gmail.com')
-    
-    password = models.CharField(max_length=130, validators=[ValidateFields.password_validator()]                              
-                                     )
-    
-  
-
-    # Helps to assign roles to the User 
     ROLE_CHOICES = [
         ('admin', 'Admin'),
         ('teacher', 'Teacher'),
         ('student', 'Student'),
     ]
-
-    roles = models.CharField(
-        max_length=10,
-        choices=ROLE_CHOICES,
-        default= ROLE_CHOICES[2][0]   # Used list property to access and assign default user # 'student' value
-    )
-
-
-    create_at = models.DateTimeField(auto_now_add=True)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
+    
+    # Permissions - only what you need
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    objects = CustomUserManager()
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []  # Fuck off Django's required fields
 
-
-    # Model level password hashing 
-
-    def save(self, *args, **kwargs):
-        if not self.pk or not self.password.startswith('pbkdf2_'):
-            self.password = hash_password(self.password)
-        super().save(*args, **kwargs)
-
-
-     # check_password is  helper function  for login validation 
-
-    def check_password(self, raw_password):
-         return verify_password(raw_password, self.password)
-   
+    def __str__(self):
+        return self.email
 
     class Meta:
-                db_table = 'UserTable'
+        db_table = 'UserTable'
+        # Tell Django to stop trying to be smart about auth
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
