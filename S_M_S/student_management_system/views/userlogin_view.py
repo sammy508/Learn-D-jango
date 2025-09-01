@@ -1,3 +1,5 @@
+
+
 from logging import raiseExceptions
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,56 +16,47 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.exceptions import AuthenticationFailed
 
 
-
-
 class UserloginApiView(generics.GenericAPIView):
     serializer_class = UserLoginSerializer
 
-
     def post(self, request, *args, **kwargs):
-        serializer= self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         email = serializer.validated_data['email']
-        password = serializer.validated_data['usr_password']
-
-
-        user = authenticate(request, username=email, password=password)
-        user = authenticate(request, username=email, password=password)
-
-
+        password = serializer.validated_data['password']  # Change from usr_password to password
 
         try:
             user = UserModel.objects.get(email=email)
-       
-
-            if user is not None:
+            if user.check_password(password):  # And here too
                 refresh = RefreshToken.for_user(user)
-
                 return Response({
                     "message": "Login successful",
                     "user": {
-                        "id": user.id,
+                        "id": str(user.id),  # Make sure to convert UUID to string
                         "email": user.email,
-                        "username": user.username,  # or "roles"
+                        "role": user.role,
+                        "is_staff": user.is_staff,
+                        "is_active": user.is_active,
                     },
                     "tokens": {
                         "refresh": str(refresh),
                         "access": str(refresh.access_token),
                     }
                 }, status=status.HTTP_200_OK)
-        except :
+            else:
                 return Response(
-                    {'message': 'Invalid credentials babe put correct one'},
+                    {'message': 'Invalid password'},
                     status=status.HTTP_401_UNAUTHORIZED
                 )
-
-        
-        
-
-
-
-
-
-
-    
+                
+        except UserModel.DoesNotExist:
+            return Response(
+                {'message': 'User with this email does not exist'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        except Exception as e:
+            return Response(
+                {'message': f'Login error: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

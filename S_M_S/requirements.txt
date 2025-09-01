@@ -1,0 +1,10 @@
+
+Django==5.2
+djangorestframework==3.16.1
+djangorestframework-simplejwt==5.5.1
+PyJWT==2.10.1
+python-decouple==3.8
+psycopg2==2.9.10
+pillow==11.3.0
+sqlparse==0.5.3
+argon2-cffi==25.1.0

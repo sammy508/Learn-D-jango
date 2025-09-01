@@ -1,14 +1,18 @@
 
-### 2. create virtual ENV 
+
+
+# TO clone
+1. Clone the repository:  https://github.com/sammy508/Learn-D-jango.git
+2. Create virtual env: 
     python -m venv venv
+    venv\Scripts\activate   # Windows
+    source venv/bin/activate
 
-*** Install dependency 
-    pip install django
+3. Install dependencies:
+    pip install -r requirements.txt
 
-*** Run Migrations
+4. Apply Migrations
     python manage.py migrate
 
-*** Start development Server 
+5. Run the development server:
     python manage.py runserver
-
-# DRF Soon
