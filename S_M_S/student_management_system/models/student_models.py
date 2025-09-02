@@ -1,4 +1,5 @@
 
+from ast import Delete
 from operator import truediv
 from pyexpat import model
 from random import choice
@@ -10,12 +11,16 @@ from django.core.validators import MinLengthValidator
 from ..utils.validations import ValidateFields
 from django.db import transaction
 from ..utils import student_id_generator
+from django.contrib.auth.models import User
+from django.conf import settings
+
 
 
 
 from django.db import transaction 
 
 class StudentModel(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     st_id = models.AutoField(primary_key=True)  # internal
     f_name = models.CharField(
         max_length=20,
@@ -29,6 +34,9 @@ class StudentModel(models.Model):
         blank=False,
         validators=[ValidateFields.namefield_validator()]
     )
+
+    avatar = models.ImageField(upload_to="avatars/", null=True, blank=True)
+
 
     course = models.ForeignKey('CourseModel', on_delete= models.PROTECT)  # Links to course and prevents from delete
 
@@ -49,7 +57,12 @@ class StudentModel(models.Model):
         super().save(*args, **kwargs)
 
 
-
+    def delete_avatar(self):
+        if self.avatar:
+            self.avatar.delete(save=False,) # removes file from storage
+            self.avatar = None
+            self.save()
+           
 
 
 

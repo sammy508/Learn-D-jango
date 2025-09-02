@@ -1,6 +1,7 @@
 
 
 
+import uuid
 from django.shortcuts import get_object_or_404
 from ..models.user_models import UserModel
 from ..serializers.User_serializer import Userserializer
@@ -17,8 +18,8 @@ class UserApiview(APIView):
 
             if pk:   # if primary key is provided for single user
 
-                user_data = get_object_or_404(UserModel, pk=pk)
-                serializer = Userserializer(user_data, many=True)
+                user_data = get_object_or_404(UserModel, id=pk)    # id = model fields which pass uuid here in pk
+                serializer = Userserializer(user_data)
 
                 return Response(
                     serializer.data, status= status.HTTP_200_OK
