@@ -42,7 +42,7 @@ class StudentModel(models.Model):
 
     enroll_id = models.CharField(max_length=10, unique=True, editable=False)
 
-    # current_sem = models.IntegerField(default=1)  # optional
+    current_sem = models.IntegerField(default=1)  # optional
 
     def save(self, *args, **kwargs):
         if not self.enroll_id:  # generate only if new record

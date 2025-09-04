@@ -12,6 +12,7 @@ class CourseModel(models.Model):
         Course_name = models.CharField(max_length=20,null=False, blank=False, validators=[ValidateFields.namefield_validator()])
         course_code = models.CharField(max_length=5, unique=True)
         total_sem = models.IntegerField(default=8)
+        course_image = models.ImageField()
         
 
 

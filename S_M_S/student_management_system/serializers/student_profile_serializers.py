@@ -3,15 +3,18 @@
 from email.mime import image
 from rest_framework import serializers
 
+from ..models.user_models import UserModel
+
 from ..models.student_models import StudentModel
 from ..models.course_model import CourseModel
 from PIL import Image
 
 class StudentProfileSerializer(serializers.ModelSerializer):
-
+    course = serializers.PrimaryKeyRelatedField(queryset=CourseModel.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=UserModel.objects.all())
 
     class Meta:
-        model = StudentModel()
+        model = StudentModel
         fields = "__all__"    # Applied automatic serializers instead of handling manually
 
     def validate_avatar(self, value):

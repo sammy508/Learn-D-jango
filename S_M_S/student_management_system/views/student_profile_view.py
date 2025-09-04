@@ -13,15 +13,17 @@ from ..models.student_models import StudentModel
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class  StudentApiview(APIView):
+    parser_classes = [MultiPartParser, FormParser]
 
     def get(self,request,pk=None):
 
         try:
             if pk:
                 student_data = get_object_or_404(StudentModel, pk=pk)
-                serializer = StudentProfileSerializer(student_data,many=True)
+                serializer = StudentProfileSerializer(student_data)
 
                 return Response(
                     serializer.data, status= status.HTTP_200_OK 
@@ -37,6 +39,7 @@ class  StudentApiview(APIView):
 
         except StudentModel.DoesNotExist:
             return Response(
+                {"error": "Student not found"}, 
                 status=status.HTTP_404_NOT_FOUND
             )
         
@@ -49,8 +52,7 @@ class  StudentApiview(APIView):
             serializer.save()
             return Response(  serializer.data, status = status.HTTP_201_CREATED)
 
-        return Response({"error": "Something went wrong!"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
     def put(self, request, pk, *args, **kwargs):
         student_data = get_object_or_404(StudentModel, pk=pk)
@@ -59,16 +61,29 @@ class  StudentApiview(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(
-                serializer.data, status = status.HTTP_201_CREATED
+                serializer.data, status = status.HTTP_200_OK
             )
         return Response(
             {"error": "Something went wrong!"}, status=status.HTTP_400_BAD_REQUEST
         )
     
 
-    def delete(self, request, *args, **kwargs):
-        student_data = get_object_or_404(StudentModel, user=request.user )
-        student_data.delete_avatar()
+    def delete(self, request,pk, *args, **kwargs):
+        try:
+            student_data = get_object_or_404(StudentModel, user=request.user )
+            student_data.delete_avatar()
+            return Response(
+                {"message": "Student deleted successfully"}, 
+                status=status.HTTP_204_NO_CONTENT
+            )
+
+        except :
+           return  Response(
+                {"error": "Student not found"}, 
+                status=status.HTTP_404_NOT_FOUND
+
+            )
+        
 
        
 

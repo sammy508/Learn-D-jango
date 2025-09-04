@@ -22,7 +22,7 @@ urlpatterns = [
     path('auth/logout-user/',UserLogoutViews().as_view()),
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('student/profile/',StudentApiview().as_view(),name="student-profile"),   # 
+    path('student/profile/',StudentApiview().as_view(),name="student-profile-list"),   # 
     path('student/profile/<int:pk>',StudentApiview().as_view(),name="student-profile"), # crud in del it only delete user profile image 
 
     
