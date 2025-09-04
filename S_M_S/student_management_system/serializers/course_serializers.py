@@ -7,4 +7,6 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CourseModel
-        fields = "__all__"    # Applied automatic serializers instead of handling manually
+
+        fields = "__all__"
+      

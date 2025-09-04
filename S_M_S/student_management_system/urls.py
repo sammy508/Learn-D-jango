@@ -9,6 +9,7 @@ from rest_framework.routers import DefaultRouter
 from .views.userlogout_views import UserLogoutViews
 from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView,  TokenVerifyView)
 from .views.student_profile_view import StudentApiview
+from .views.course_views import CourseApiView, CourseSingalApiView
 
 
 
@@ -24,6 +25,8 @@ urlpatterns = [
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('student/profile/',StudentApiview().as_view(),name="student-profile-list"),   # 
     path('student/profile/<int:pk>',StudentApiview().as_view(),name="student-profile"), # crud in del it only delete user profile image 
+    path('courses/',CourseApiView.as_view(), name="Courses"),
+    path('courses/<str:pk>',CourseSingalApiView().as_view(), name="Course"),
 
     
 

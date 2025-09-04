@@ -40,7 +40,7 @@ class StudentModel(models.Model):
 
     course = models.ForeignKey('CourseModel', on_delete= models.PROTECT)  # Links to course and prevents from delete
 
-    enroll_id = models.CharField(max_length=10, unique=True, editable=False)
+    enroll_id = models.CharField(max_length=15, unique=True, editable=False)
 
     current_sem = models.IntegerField(default=1)  # optional
 
@@ -52,7 +52,7 @@ class StudentModel(models.Model):
                 last_number = int(last_student.enroll_id.split('-')[1]) if last_student else 1000
 
                 # Generate new enroll_id
-                self.enroll_id = f"Stu-{self.course.code}-{last_number + 1}"
+                self.enroll_id = f"Stu-{self.course.course_code}-{last_number + 1}"
 
         super().save(*args, **kwargs)
 
@@ -70,3 +70,7 @@ class StudentModel(models.Model):
 
     class Meta:
         db_table = 'StudentTable'
+
+
+
+        # May have to update student id later and make unique to generate add collegename-createddatestamp-number in this format which makes id uniques each time anc can repeat number in endpart 
