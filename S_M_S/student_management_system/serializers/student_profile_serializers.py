@@ -28,3 +28,4 @@ class StudentProfileSerializer(serializers.ModelSerializer):
         if img.width > 2000 or img.height > 2000:
             raise serializers.ValidationError("Image dimensions should not exceed 2000x2000px.")
         return value
+#  Have to add paginations later in both student, course and users views
