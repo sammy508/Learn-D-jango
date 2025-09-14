@@ -143,6 +143,14 @@ SIMPLE_JWT = {
 }
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('Host_Mail')
+EMAIL_HOST_PASSWORD = config('SMS_apppass')  # use app password, not Gmail login
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 CORS_ALLOW_CREDENTIALS = True
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

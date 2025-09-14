@@ -1,4 +1,5 @@
 
+from os import name
 from django.db import router
 from django.urls import path, include
 
@@ -10,6 +11,7 @@ from .views.userlogout_views import UserLogoutViews
 from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView,  TokenVerifyView)
 from .views.student_profile_view import StudentApiview
 from .views.course_views import CourseApiView, CourseSingalApiView
+from  .auth.resetpassword.reset_password_view import SendResetPasswordLinkView, ResetPaswordView
 
 
 
@@ -27,6 +29,11 @@ urlpatterns = [
     path('student/profile/<int:pk>',StudentApiview().as_view(),name="student-profile"), # crud in del it only delete user profile image 
     path('courses/',CourseApiView.as_view(), name="Courses"),
     path('courses/<str:pk>',CourseSingalApiView().as_view(), name="Course"),
+
+    path('send_resetlink/', SendResetPasswordLinkView.as_view(), name='forgetpassword'),
+    path('reset_password/<str:token>/', ResetPaswordView.as_view(), name= "reset_Password")
+    
+
 
     
 
