@@ -11,7 +11,7 @@ from .views.userlogout_views import UserLogoutViews
 from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView,  TokenVerifyView)
 from .views.student_profile_view import StudentApiview
 from .views.course_views import CourseApiView, CourseSingalApiView
-from  .auth.resetpassword.reset_password_view import SendResetPasswordLinkView, ResetPaswordView
+from  .auth.resetpassword.reset_password_view import  SendResetPasswordLinkView, ResetPaswordView, ChangepasswordView
 
 
 
@@ -31,7 +31,8 @@ urlpatterns = [
     path('courses/<str:pk>',CourseSingalApiView().as_view(), name="Course"),
 
     path('send_resetlink/', SendResetPasswordLinkView.as_view(), name='forgetpassword'),
-    path('reset_password/<str:token>/', ResetPaswordView.as_view(), name= "reset_Password")
+    path('auth/reset_password/<str:token>/', ResetPaswordView.as_view(), name= "reset_Password"),
+    path('auth/change_password/', ChangepasswordView.as_view(), name='change_password')
     
 
 

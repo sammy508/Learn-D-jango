@@ -2,8 +2,9 @@
 import email
 from multiprocessing import managers
 from pickle import TRUE
+import re
 import token
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from yaml import serialize
@@ -14,7 +15,7 @@ from ...models.user_models import UserModel
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework.generics import GenericAPIView
 from ..resetpassword.reset_password_serializer import ResetPasswordSerializer, SendresetLinkSerializer
-from ..utils.reset_password import PasswordresetManager
+from ..utils.reset_password import ChangePasswordSerializer, PasswordresetManager
 from django.contrib.auth import get_user_model
 from .model.password_reset_model import PasswordReset
 
@@ -97,50 +98,43 @@ class ResetPaswordView(generics.GenericAPIView):
 
 
 
+class ChangepasswordView(generics.GenericAPIView):
+    serializer_class = ChangePasswordSerializer
+    model = UserModel
+    permission_classes = [permissions.IsAuthenticated]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class ResetPasswordView(generics.UpdateAPIView):
-#     serializer_class = ChangePasswordSerializer
-#     permission_classes = [AllowAny] 
-
-#     def get_object(self):
-#         return self.request.user
+   
     
-    
-    
-#     def post(self,request, *args, **kwargs):
-#         serializer = PasswordResetSerializers(data = request.data)
-#         serializer.is_valid(raise_exception=True)
+    def put(self,request, *args, **kwargs):
 
-#         email = serializer.validated_data['email']
-#         user = UserModel.objects.get(email = email)
-
-
-#         # create a token 
-
-#         token = default_token_generator.make_token(user)
-#         reset_url = f"http://127.0.0.1:8000/api/v1/resetpassword/?user_id={user.pk}&token={token}"
-
-#         return Response({
-#         "reset_url": reset_url,
-#         "message": "Use this URL to reset your password (backend-only)"
-#     }, status=200)
+        user = request.user  # logged-in user, no need for pk/id it end the necessicity of PK
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
     
+
+        old_password = serializer.validated_data['old_password'] 
+        new_password = serializer.validated_data['new_password']
+        confirm_password = serializer.validated_data['confirm_password'] 
+
+        if not  user.check_password(old_password):
+            return Response(
+                {"error": "Old password does not match"}, status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        user.set_password(new_password)
+        user.save()
+
+
+        return Response(
+            {"success": "Password changed successfully."}, status=200
+        )
+    
+
+        
+        
+
+
 
 
 
