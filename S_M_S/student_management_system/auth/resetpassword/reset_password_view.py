@@ -14,8 +14,8 @@ from yaml import serialize
 from ...models.user_models import UserModel
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework.generics import GenericAPIView
-from ..resetpassword.reset_password_serializer import ResetPasswordSerializer, SendresetLinkSerializer
-from ..utils.reset_password import ChangePasswordSerializer, PasswordresetManager
+from ..resetpassword.reset_password_serializer import ResetPasswordSerializer, SendresetLinkSerializer, ChangePasswordSerializer
+from ..utils.reset_password import  PasswordresetManager
 from django.contrib.auth import get_user_model
 from .model.password_reset_model import PasswordReset
 
