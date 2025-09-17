@@ -1,10 +1,11 @@
 
 from rest_framework import serializers
-from ..models.Teacher_table import TeacherModel
+# from .teacher_models import TeacherModel
+from ..models.teacher_model import TeachersModel
 
 class TeacherSerializer(serializers.ModelSerializer):
 
 
     class Meta:
-        model= TeacherModel
+        model= TeachersModel
         fields = "__all__"    # Applied automatic serializers instead of handling manually

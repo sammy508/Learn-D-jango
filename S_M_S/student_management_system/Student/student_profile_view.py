@@ -7,8 +7,8 @@ from django.shortcuts import get_object_or_404
 from yaml import serialize
 
 
-from ..serializers.student_profile_serializers import StudentProfileSerializer
-from ..models.student_models import StudentModel
+from .student_profile_serializers import StudentProfileSerializer
+from .student_models import StudentModel
 
 from rest_framework.views import APIView
 from rest_framework.response import Response

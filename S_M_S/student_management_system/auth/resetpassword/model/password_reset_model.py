@@ -8,13 +8,15 @@ from django.utils import timezone
 
 
 User =  get_user_model()
+def get_expiry_time():
+    return timezone.now() + timedelta(minutes=30)
 
 class PasswordReset(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     token = models.CharField(max_length=255, unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    expires_at =  models.DateTimeField(default=lambda: timezone.now() + timedelta(minutes=30))
+    expires_at = models.DateTimeField(default=get_expiry_time)
 
 
     def is_expired(self):

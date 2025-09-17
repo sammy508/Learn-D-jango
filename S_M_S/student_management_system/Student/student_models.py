@@ -1,14 +1,10 @@
 
 from ast import Delete
-from operator import truediv
-from pyexpat import model
-from random import choice
-from turtle import mode
 import uuid
 from django.db import models
 from django.forms import CharField
 from django.core.validators import MinLengthValidator
-from ..utils.validations import ValidateFields
+from ..utils.validations import NAME_VALIDATOR, PHONE_VALIDATOR
 from django.db import transaction
 from ..utils import student_id_generator
 from django.contrib.auth.models import User
@@ -26,15 +22,21 @@ class StudentModel(models.Model):
         max_length=20,
         null=False,
         blank=False,
-        validators=[ValidateFields.namefield_validator()]
+        validators=[NAME_VALIDATOR]
+        
     )
     l_name = models.CharField(
         max_length=20,
         null=False,
         blank=False,
-        validators=[ValidateFields.namefield_validator()]
+        validators=[NAME_VALIDATOR]
     )
 
+    phone = models.CharField(
+            max_length=15,
+            validators=[PHONE_VALIDATOR],  # your regex validator
+            blank=True, null=True
+        )
     avatar = models.ImageField(upload_to="avatars/", null=True, blank=True)
 
 

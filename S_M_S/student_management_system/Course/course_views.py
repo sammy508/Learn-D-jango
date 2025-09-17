@@ -12,8 +12,8 @@ from yaml import serialize
 
 
 
-from ..serializers.course_serializers import CourseSerializer
-from ..models.course_model import CourseModel
+from ..Course.course_serializers import CourseSerializer
+from ..Course.course_model import CourseModel
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status

@@ -9,9 +9,10 @@ from .views.userlogin_view import UserloginApiView
 from rest_framework.routers import DefaultRouter
 from .views.userlogout_views import UserLogoutViews
 from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView,  TokenVerifyView)
-from .views.student_profile_view import StudentApiview
-from .views.course_views import CourseApiView, CourseSingalApiView
+from .Student.student_profile_view import StudentApiview
+from .Course.course_views import CourseApiView, CourseSingalApiView
 from  .auth.resetpassword.reset_password_view import  SendResetPasswordLinkView, ResetPaswordView, ChangepasswordView
+from .Teacher.teacher_profile_view import TeacherView
 
 
 
@@ -30,10 +31,14 @@ urlpatterns = [
     path('courses/',CourseApiView.as_view(), name="Courses"),
     path('courses/<str:pk>',CourseSingalApiView().as_view(), name="Course"),
 
+    # Auth
     path('send_resetlink/', SendResetPasswordLinkView.as_view(), name='forgetpassword'),
     path('auth/reset_password/<str:token>/', ResetPaswordView.as_view(), name= "reset_Password"),
-    path('auth/change_password/', ChangepasswordView.as_view(), name='change_password')
+    path('auth/change_password/', ChangepasswordView.as_view(), name='change_password'),
     
+    # Teacer 
+    path('teachers/',TeacherView.as_view(), name='teacher'),
+    path('teacher/<int:pk>/',TeacherView.as_view(), name='teacher')
 
 
     

@@ -2,7 +2,7 @@
 from pickle import TRUE
 import uuid
 from django.db import models
-from ..utils.validations import ValidateFields
+from ..utils.validations import NAME_VALIDATOR
 from ..utils import id_generators
 
 
@@ -10,7 +10,7 @@ from ..utils import id_generators
 class CourseModel(models.Model):
         course_id = models.AutoField(primary_key=True) # internal
        
-        course_name = models.CharField(max_length=20,null=False, blank=False, validators=[ValidateFields.namefield_validator()])
+        course_name = models.CharField(max_length=20,null=False, blank=False, validators=[NAME_VALIDATOR])
         course_code = models.CharField(max_length=5, unique=True)
         total_sem = models.IntegerField(default=8)
         course_image = models.ImageField(upload_to='Courses/',null=True,blank=True )

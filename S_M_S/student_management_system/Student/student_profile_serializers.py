@@ -5,8 +5,9 @@ from rest_framework import serializers
 
 from ..models.user_models import UserModel
 
-from ..models.student_models import StudentModel
-from ..models.course_model import CourseModel
+from .student_models import StudentModel
+
+from ..Course.course_model import CourseModel
 from PIL import Image
 
 class StudentProfileSerializer(serializers.ModelSerializer):
