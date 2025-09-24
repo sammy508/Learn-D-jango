@@ -7,6 +7,7 @@ from multiprocessing import reduction
 from os import stat
 import profile
 from urllib import response
+from webbrowser import get
 from django.shortcuts import get_object_or_404
 from yaml import serialize
 
@@ -40,7 +41,7 @@ class CourseApiView(APIView):
             serializer = CourseSerializer(course_data, many=True)
             return Response(
                 {
-                    "count": len(serializer.data),
+                    "count": course_data.count(),
                     "courses": serializer.data
                 },
                 status=status.HTTP_200_OK
@@ -69,7 +70,8 @@ class CourseApiView(APIView):
 class CourseSingalApiView(APIView):
         parser_classes = [MultiPartParser, FormParser]
       
-        def put(self,request,*args,**kwargs):
+        def put(self,request,pk,*args,**kwargs):
+           course = get_object_or_404(CourseModel, pk=pk)
            serializer = CourseSerializer(data =request.data)
            if serializer.is_valid():
                 serializer.save()

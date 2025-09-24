@@ -1,7 +1,7 @@
 
 from rest_framework import serializers
 # from .teacher_models import TeacherModel
-from ..models.teacher_model import TeachersModel
+from .teacher_model import TeachersModel
 
 class TeacherSerializer(serializers.ModelSerializer):
 

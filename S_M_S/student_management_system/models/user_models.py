@@ -27,11 +27,16 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, validators=[EmailValidator()])
     
     ROLE_CHOICES = [
-        ('admin', 'Admin'),
-        ('teacher', 'Teacher'),
-        ('student', 'Student'),
+        ("ADMIN", "Admin"),
+        ("STUDENT", "Student"),
+        ("TEACHER", "Teacher"),
+        ("HR", "HR"),
+        ("LIBRARIAN", "Librarian"),
+        ("ACCOUNTANT", "Accountant"),
+        ("HOSTEL_MANAGER", "Hostel Manager"),
+        ("TRANSPORT_MANAGER", "Transport Manager"),
     ]
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='student')
     
     # Permissions - only what you need
     is_active = models.BooleanField(default=True)

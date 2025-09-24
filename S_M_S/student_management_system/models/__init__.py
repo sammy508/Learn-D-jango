@@ -1,2 +1,7 @@
 from .user_models import UserModel
-from .teacher_model import TeachersModel
+from ..Teacher.teacher_model import TeachersModel
+
+from ..Course.course_model import CourseModel
+from .subjects_models import SubjectsModel
+from .semester_models import SemesterModel
+

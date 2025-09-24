@@ -9,10 +9,11 @@ from .views.userlogin_view import UserloginApiView
 from rest_framework.routers import DefaultRouter
 from .views.userlogout_views import UserLogoutViews
 from rest_framework_simplejwt.views import ( TokenObtainPairView, TokenRefreshView,  TokenVerifyView)
-from .Student.student_profile_view import StudentApiview
 from .Course.course_views import CourseApiView, CourseSingalApiView
 from  .auth.resetpassword.reset_password_view import  SendResetPasswordLinkView, ResetPaswordView, ChangepasswordView
 from .Teacher.teacher_profile_view import TeacherView
+from .Student.student_profile_view import StudentApiView
+from .subjects.sub_views import SubjectAPIView,SingleSubjectApiView
 
 
 
@@ -26,8 +27,12 @@ urlpatterns = [
     path('auth/logout-user/',UserLogoutViews().as_view()),
     path('api/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('student/profile/',StudentApiview().as_view(),name="student-profile-list"),   # 
-    path('student/profile/<int:pk>',StudentApiview().as_view(),name="student-profile"), # crud in del it only delete user profile image 
+
+    # student 
+    path('student/profile/',StudentApiView().as_view(),name="student-profile-list"),   # 
+    path('student/profile/<int:pk>',StudentApiView().as_view(),name="student-profile"), # crud in del it only delete user profile image 
+    
+    #Courses
     path('courses/',CourseApiView.as_view(), name="Courses"),
     path('courses/<str:pk>',CourseSingalApiView().as_view(), name="Course"),
 
@@ -38,13 +43,14 @@ urlpatterns = [
     
     # Teacer 
     path('teachers/',TeacherView.as_view(), name='teacher'),
-    path('teacher/<int:pk>/',TeacherView.as_view(), name='teacher')
+    path('teacher/<int:pk>/',TeacherView.as_view(), name='teacher'),
 
 
-    
+    # Subjects
+    path('subjects/',SubjectAPIView.as_view(), name='subjects'),
+    path('subject/<int:pk>/',SingleSubjectApiView.as_view(), name='subject')
 
-
-    # path('', include(router.urls)),
-
+    # Semester 
+  
 ]
 

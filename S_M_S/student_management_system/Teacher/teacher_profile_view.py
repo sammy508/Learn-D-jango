@@ -9,7 +9,7 @@ from rest_framework.response import  Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 import traceback
-from ..models.teacher_model import TeachersModel
+from .teacher_model import TeachersModel
 
 class TeacherView(GenericAPIView):
     queryset = TeachersModel.objects.all()

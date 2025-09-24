@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 
-class  StudentApiview(APIView):
+class  StudentApiView(APIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def get(self,request,pk=None):
