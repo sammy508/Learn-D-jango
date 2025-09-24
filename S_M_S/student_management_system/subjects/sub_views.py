@@ -28,7 +28,10 @@ class SubjectAPIView(generics.GenericAPIView):
         try:
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(serializer.data, status=201)
+            return Response(  {
+                "message": "Subject created successfully",
+                "data": serializer.data
+            }, status=201)
         except ValidationError as e:
             return Response(
                 {"error": "Invalid data", "details": e.detail},
@@ -64,7 +67,7 @@ class SubjectAPIView(generics.GenericAPIView):
 
 
 class SingleSubjectApiView(generics.GenericAPIView):
-
+    serializer_class = SubjectSerializers
     parser_classes = [JSONParser]
 
     def get(self, request,pk, *args, **kwargs):
