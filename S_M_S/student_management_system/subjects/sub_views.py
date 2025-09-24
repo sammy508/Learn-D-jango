@@ -28,10 +28,7 @@ class SubjectAPIView(generics.GenericAPIView):
         try:
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(  {
-                "message": "Subject created successfully",
-                "data": serializer.data
-            }, status=201)
+            return Response(serializer.data, status=201)
         except ValidationError as e:
             return Response(
                 {"error": "Invalid data", "details": e.detail},
@@ -68,6 +65,8 @@ class SubjectAPIView(generics.GenericAPIView):
 
 class SingleSubjectApiView(generics.GenericAPIView):
     serializer_class = SubjectSerializers
+    permission_classes = [AllowAny]
+
     parser_classes = [JSONParser]
 
     def get(self, request,pk, *args, **kwargs):
@@ -75,15 +74,19 @@ class SingleSubjectApiView(generics.GenericAPIView):
             subject_data = get_object_or_404(SubjectsModel,pk=pk)  # NoteDont need to use try except when we use get_object_or_404 it handles itself
             serializer = SubjectSerializers(subject_data)
             return Response(
-                 serializer.data,
+                {
+                     "message":"Subject data fetched sucessfully",
+                      "data":serializer.data
+                },
+                
                      status=status.HTTP_200_OK
             )
 
     def put(self, request, pk, *args, **kwargs):
          
-         subject = get_object_or_404(SubjectsModel, pk=pk)
+         subject_data = get_object_or_404(SubjectsModel, pk=pk)
          
-         serializer = SubjectSerializers(data = request.data)
+         serializer = SubjectSerializers(subject_data,data = request.data)
 
          if serializer.is_valid():
               serializer.save()

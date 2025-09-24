@@ -16,7 +16,7 @@ from .Student.student_profile_view import StudentApiView
 from .subjects.sub_views import SubjectAPIView,SingleSubjectApiView
 
 # Subjects
-from .semester.sem_views import SemesterApiView
+from .semester.sem_views import SemesterApiView, SingleSemesterView
 
 
 
@@ -54,6 +54,8 @@ urlpatterns = [
     path('subject/<str:pk>/',SingleSubjectApiView.as_view(), name='subject'),
 
     # Semester 
-    path('semesters/',SemesterApiView.as_view(), name = 'Semesters')
+    path('semesters/',SemesterApiView.as_view(), name = 'Semesters'),
+    path('semester/<str:pk>/', SingleSemesterView.as_view(),name='semester')
+    
 ]
 

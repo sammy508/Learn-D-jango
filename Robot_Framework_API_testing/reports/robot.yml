@@ -1,0 +1,6 @@
+
+
+settings:
+  output: /Robot_Framework_API_testing/reports/output.xml
+  log: /Robot_Framework_API_testing/reports/log.html
+  report: /Robot_Framework_API_testing/reports/report.html
