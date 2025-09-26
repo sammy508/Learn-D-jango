@@ -13,8 +13,8 @@ class SemesterModel(models.Model):
     sem_name = models.CharField(max_length=25, blank=False, null=False)
     course_id = models.ForeignKey('CourseModel', on_delete= models.CASCADE)
     sem_num = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(8)])
-    start_date = models.DateField()     
-    end_date = models.DateField()
+    start_date = models.DateField(auto_now_add=True)     
+    end_date = models.DateField(null=True, blank=True)
                                                                                                                                                                             
     class Meta: 
         db_table = 'SemesterModel'

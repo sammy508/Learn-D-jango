@@ -12,14 +12,14 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics, status
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny,IsAdminUser
 from rest_framework.exceptions import ValidationError 
 
 
 class SubjectAPIView(generics.GenericAPIView):
     queryset = SubjectsModel.objects.all()
     serializer_class = SubjectSerializers
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminUser]
     parser_classes = [JSONParser]
 
 
@@ -65,7 +65,7 @@ class SubjectAPIView(generics.GenericAPIView):
 
 class SingleSubjectApiView(generics.GenericAPIView):
     serializer_class = SubjectSerializers
-    permission_classes = [AllowAny]
+    permission_classes = [IsAdminUser]
 
     parser_classes = [JSONParser]
 

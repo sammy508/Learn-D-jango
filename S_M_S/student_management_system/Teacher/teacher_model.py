@@ -39,3 +39,21 @@ class TeachersModel(models.Model):
 
         class Meta:
                 db_table = 'TeachersTable'
+
+
+
+# Have to update athis teacher model to staff model to manage it widely for other staffs to 
+            # role-based designation
+#     ROLE_CHOICES = [
+#         ("hod", "Head of Department"),
+#         ("teacher", "Teacher"),
+#         ("librarian", "Librarian"),
+#         ("account", "Accountant"),
+#         ("clerk", "Clerk"),
+#         ("exam", "Exam Cell"),
+#         ("admin", "Admin Staff"),
+#     ]
+#     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+
+
+""" Have to add Hr module also to collect appointed/hired data of the staffs like we did on student enrollment"""

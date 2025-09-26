@@ -30,7 +30,7 @@ class SemesterApiView(generics.GenericAPIView):
             serializer.is_valid(raise_exception=True)   # by using this raise_exception we dont need to use if condition
             serializer.save()
             return Response(
-                # {"message":"Semester Created Sucessfully"},
+                {"message":"Semester Created Sucessfully"},
                 serializer.data, status=201
             )
             

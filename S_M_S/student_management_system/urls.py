@@ -56,6 +56,9 @@ urlpatterns = [
     # Semester 
     path('semesters/',SemesterApiView.as_view(), name = 'Semesters'),
     path('semester/<str:pk>/', SingleSemesterView.as_view(),name='semester')
+
+
+    
     
 ]
 
