@@ -13,11 +13,15 @@ from .Course.course_views import CourseApiView, CourseSingalApiView
 from  .auth.resetpassword.reset_password_view import  SendResetPasswordLinkView, ResetPaswordView, ChangepasswordView
 from .Teacher.teacher_profile_view import TeacherView
 from .Student.student_profile_view import StudentApiView
-from .subjects.sub_views import SubjectAPIView,SingleSubjectApiView
+
 
 # Subjects
+from .subjects.sub_views import SubjectAPIView,SingleSubjectApiView
+# Semester
 from .semester.sem_views import SemesterApiView, SingleSemesterView
 
+# Enrollments
+from .Student.student_enrollment_view import StudentEnrollView,SingleStudentEnrollView
 
 
 
@@ -55,8 +59,13 @@ urlpatterns = [
 
     # Semester 
     path('semesters/',SemesterApiView.as_view(), name = 'Semesters'),
-    path('semester/<str:pk>/', SingleSemesterView.as_view(),name='semester')
+    path('semester/<str:pk>/', SingleSemesterView.as_view(),name='semester'),
 
+
+    # Enrollments
+
+    path('enrollments/',StudentEnrollView.as_view(), name="enrollment"),
+    path('enrollments/<int:pk>',SingleStudentEnrollView.as_view(), name="enrollment")
 
     
     

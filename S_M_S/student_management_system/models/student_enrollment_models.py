@@ -11,7 +11,7 @@ from django.core.validators import MinLengthValidator
 class StudentEnrollmentModel(models.Model):
     enroll_id = models.AutoField(primary_key=True)
     student_id = models.ForeignKey('StudentModel',on_delete=models.CASCADE, related_name='enrollments' )
-    class_id = models.ForeignKey('SubjectsModel', on_delete= models.CASCADE, related_name='class')
+    class_id = models.ForeignKey('SubjectsModel', on_delete= models.CASCADE, related_name='enrolled_class')
     enroll_at = models.DateField( auto_now_add=True)
 
     STATUS_CHOICES = [

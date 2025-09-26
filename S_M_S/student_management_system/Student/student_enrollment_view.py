@@ -27,7 +27,7 @@ class StudentEnrollView(generics.GenericAPIView):
         serializer = self.get_serializer(data = request.data)
 
         try:
-            serializer.is_valid()
+            serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(
                  {"message":"Enrollment record Created Sucessfully"},
@@ -62,7 +62,7 @@ class StudentEnrollView(generics.GenericAPIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
 
-class SingleSrudentView(generics.GenericAPIView):
+class SingleStudentEnrollView(generics.GenericAPIView):
     permission_classes = [AllowAny]   # have to change later
     serializer_class = StudentEnrollmentSerializer
 
