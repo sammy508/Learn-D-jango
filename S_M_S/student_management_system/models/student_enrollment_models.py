@@ -11,7 +11,7 @@ from django.core.validators import MinLengthValidator
 class StudentEnrollmentModel(models.Model):
     enroll_id = models.AutoField(primary_key=True)
     student_id = models.ForeignKey('StudentModel',on_delete=models.CASCADE, related_name='enrollments' )
-    class_id = models.ForeignKey('SubjectsModel', on_delete= models.CASCADE, related_name='class')
+    # class_id = models.ForeignKey('ClassModel', on_delete= models.CASCADE, related_name='enrolled_class')
     enroll_at = models.DateField( auto_now_add=True)
 
     STATUS_CHOICES = [
@@ -34,3 +34,16 @@ class StudentEnrollmentModel(models.Model):
 
     def __str__(self):
         return f"{self.student_id} - {self.current_sem.sem_name} ({self.status})"
+
+
+
+
+
+
+from django.db import models
+from django.db import transaction
+from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.validators import MinLengthValidator
+
+

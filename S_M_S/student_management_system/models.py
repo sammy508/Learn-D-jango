@@ -6,6 +6,8 @@ from .models.semester_models import SemesterModel
 from .models.subjects_models import SubjectsModel
 
 
+
+
 # import models in located in academic 
 
 
