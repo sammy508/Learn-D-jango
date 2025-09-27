@@ -65,7 +65,7 @@ urlpatterns = [
     # Enrollments
 
     path('enrollments/',StudentEnrollView.as_view(), name="enrollment"),
-    path('enrollments/<int:pk>',SingleStudentEnrollView.as_view(), name="enrollment")
+    path('enrollments/<int:pk>/',SingleStudentEnrollView.as_view(), name="enrollment")
 
     
     
