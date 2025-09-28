@@ -48,3 +48,10 @@ CORS = Cross-Origin Resource Sharing (controls which domains can make requests t
 ALLOW_CREDENTIALS=True tells Django:
 
 “It’s okay for the browser to include cookies, HTTP authentication, or client-side SSL certificates when making requests from another origin.
+
+
+** Rule of Thumb**
+
+    Use get_object_or_404() → when fetching a single record by pk/slug/unique field.
+
+    Use get_queryset() + .filter(...) + .exists() → when fetching a list / filtered set and you want to handle empty results manually.

@@ -26,4 +26,4 @@ class ClassModel(models.Model):
 
 
     def __str__(self) :
-        return  f"{self.course.name} - Sem {self.semester.sem_number} - Section {self.section}"
+        return  f"{self.course.course_name} - Sem {self.semester.sem_num} - Section {self.section}"

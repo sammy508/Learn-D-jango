@@ -4,6 +4,8 @@ from .Teacher.teacher_model import TeachersModel
 
 from .models.semester_models import SemesterModel
 from .models.subjects_models import SubjectsModel
+from .models.class_model import ClassModel
+
 
 
 

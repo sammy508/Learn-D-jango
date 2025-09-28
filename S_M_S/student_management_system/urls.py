@@ -3,6 +3,7 @@ from os import name
 from django.db import router
 from django.urls import path, include
 
+
 from .views.user_view import UserApiview
 from .views.admin_only_view import UserCreateApiView
 from .views.userlogin_view import UserloginApiView
@@ -22,6 +23,14 @@ from .semester.sem_views import SemesterApiView, SingleSemesterView
 
 # Enrollments
 from .student_enrollment.student_enrollment_view import StudentEnrollView,SingleStudentEnrollView
+
+# Student_class
+from .student_class.student_class_view import StudentClassView, SingleStudentClassView
+
+# Classview
+from .classes.class_views import ClassView
+
+
 
 
 
@@ -65,9 +74,14 @@ urlpatterns = [
     # Enrollments
 
     path('enrollments/',StudentEnrollView.as_view(), name="enrollment"),
-    path('enrollments/<int:pk>/',SingleStudentEnrollView.as_view(), name="enrollment")
+    path('enrollments/<int:pk>/',SingleStudentEnrollView.as_view(), name="enrollment"),
 
-        
+    # Student_class
+    path('students_class/',StudentClassView.as_view(), name='student_class'),
+    path('student_class/<uuid:pk>/',SingleStudentClassView().as_view(), name='single_studnent_class'),
+
+    # Class
+    path('classes/', ClassView.as_view(), name='classes')
     
 ]
 
