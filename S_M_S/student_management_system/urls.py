@@ -21,7 +21,7 @@ from .subjects.sub_views import SubjectAPIView,SingleSubjectApiView
 from .semester.sem_views import SemesterApiView, SingleSemesterView
 
 # Enrollments
-from .Student.student_enrollment_view import StudentEnrollView,SingleStudentEnrollView
+from .student_enrollment.student_enrollment_view import StudentEnrollView,SingleStudentEnrollView
 
 
 
@@ -67,7 +67,7 @@ urlpatterns = [
     path('enrollments/',StudentEnrollView.as_view(), name="enrollment"),
     path('enrollments/<int:pk>/',SingleStudentEnrollView.as_view(), name="enrollment")
 
-    
+        
     
 ]
 

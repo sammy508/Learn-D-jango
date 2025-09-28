@@ -28,7 +28,8 @@ class StudentClassModel(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['student', 'class_obj'], name='unique_student_class_sem')
 
-        ]
+        ]   #"""It tells Django (and the underlying database):
+#       👉 “For this table, the combination of student and class_obj must be unique.”"""
    
 
 
