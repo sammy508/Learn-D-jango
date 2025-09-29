@@ -82,6 +82,7 @@ urlpatterns = [
 
     # Class
     path('classes/', ClassView.as_view(), name='classes')
-    
+    # path('classes/<str:pk>',cla)
+
 ]
 
